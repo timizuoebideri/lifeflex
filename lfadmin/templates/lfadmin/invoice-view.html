@@ -1,0 +1,80 @@
+{% extends 'base-dashboard.html' %}
+{% load static %}
+{% block body %}
+    <div class="panel-content">
+        <div class="main-title-sec">
+            <div class="row">
+                <div class="col-md-6 column">
+                    <div class="heading-profile">
+                        <h2>#{{ invoice.pk }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Heading Sec -->
+        <div class="main-content-area">
+            <div>
+                <table class="table table-dark table-bordered">
+                    <tr>
+                        <th colspan="2" class="btn-success">INVOICE DETAILS</th>
+                    </tr>
+                    <tr>
+                        <td><b>Customer:</b> {{ invoice.user.userprofile.fullname }} </td>
+                        <td><b>Date Created:</b> {{ invoice.date_created }} </td>
+                    </tr>
+                    <tr>
+                        <td><b>Purpose:</b> {{ invoice.purpose }} </td>
+                        <td><b>Amount:</b> ${{ invoice.amount }} </td>
+                    </tr>
+                    <tr>
+                        <td><b>Method of Payment:</b> {{ invoice.method_of_payment }} </td>
+                        <td><b>Status:</b> {{ invoice.status }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <b>Comment:</b>
+                            {{ invoice.comment }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <form method="POST">
+                                {% csrf_token %}
+
+                                <b>Comment:</b>
+                                <textarea class="form-control" name="comment" id="" cols="30" rows="10"></textarea>
+                                <hr>
+                                <div class="col-md-4">
+                                    <select name="status" class="form-control">
+                                        <option value="approve">Approve</option>
+                                        <option value="declined">Decline</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="col-md-4">
+                                    <input type="submit" value="Update" class="btn btn-primary btn-block">
+                                </div>
+                            </form>
+                        </td>
+
+                    </tr>
+
+{#                    <tr class="table-borderless"><td></td></tr>#}
+{#                    <tr>#}
+{#                        <th colspan="2" class="btn-success">WITHDRAWAL ACCOUNT DETAILS</th>#}
+{#                    </tr>#}
+{##}
+{#                    <tr>#}
+{#                        <td><b>Account Name:</b> {{ user.userprofile.fullname }}</td>#}
+{#                        <td><b>Bank Name:</b> {{ user.userprofile.bank_name }}</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td><b>Account Number:</b> {{ user.userprofile.bank_account_number }}</td>#}
+{#                        <td><b>Bitcoin Wallet:</b> {{ user.userprofile.bitcoin_wallet }}</td>#}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

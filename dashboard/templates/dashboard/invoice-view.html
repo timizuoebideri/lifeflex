@@ -1,0 +1,106 @@
+{% extends 'base-dashboard.html' %}
+{% load static %}
+{% block body %}
+    <style>
+    .visit-table {
+        padding: 30px;
+        float: none;
+    }
+    </style>
+    <div class="panel-content">
+        <div class="main-title-sec">
+            <div class="row">
+                <div class="col-md-3 column">
+                    <div class="heading-profile">
+                        <h2>Invoice</h2>
+                        <b class="
+                            {% if invoice.status == 'unpaid' %}
+                                text-danger
+                            {% elif invoice.status == 'processing' %}
+                                text-warning
+                            {% else %}
+                                text-success
+                            {% endif %}
+                        ">{{ invoice.status }}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Heading Sec -->
+        <div class="main-content-area">
+            <div class="invoice-sec">
+                <div class="invoice-log">
+                    <div class="logo"> <a href="index.html" title=""> LifeFlex</a> </div>
+                    <span> <strong>Invoice #{{ invoice.pk }} </strong> {{ invoice.date_created }}  </span><!-- Invoice Number -->
+                </div>
+                <div class="invoice-details">
+                    <ul>
+                        <li class="heading-invoice">From</li>
+                        <li><strong>LifeFlex</strong></li>
+                        <li><abbr title="Phone">Phone :</abbr> +1-5245-5465,</li>
+                        <li><abbr title="Email">Email :</abbr> billing@lifeflex.uk,</li>
+                    </ul>
+                </div>
+                <!-- Invoice Detail -->
+                <div class="invoice-details">
+                    <ul>
+                        <li class="heading-invoice">To</li>
+                        <li><strong>{{ request.user.userprofile }}</strong></li>
+                        <li><abbr title="Phone">Phone :</abbr> {{ request.user.userprofile.phone }},</li>
+                        <li><abbr title="Email">Email :</abbr> {{ request.user.userprofile.email }},</li>
+                    </ul>
+                </div>
+                <!-- Invoice Details -->
+
+
+                <div class="invoice">
+                    <table class="table table-hover">
+                        <thead class="table-head table-dark">
+                            <tr>
+                                <th>Inv. no. </th>
+                                <th>Date </th>
+                                <th>Description </th>
+                                <th>Total </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-striped">
+                            <tr>
+                                <td>#{{ invoice.pk }}</td>
+                                <td>{{ invoice.date_created }}</td>
+                                <td>{{ invoice.purpose }}</td>
+                                <td>${{ invoice.amount }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">{{ invoice.comment }}</td>
+                            </tr>
+                            {% if invoice.status != 'processing' and invoice.status != 'approve' %}
+                                <tr>
+                                <td colspan="4">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                        <div class="col-md-8">
+                                            <select name="method_of_payment" id="" class="form-control" style="height: 50px">
+                                                <option>Choose payment method</option>
+                                                <option>Bitcoin</option>
+                                                <option>Paypal</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="submit" class="btn btn-primary btn-block" value="Proceed"  style="height: 45px">
+                                        </div>
+                                    </div>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Invoice -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx" dir="ltr">
+
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8">
+    <meta name="description" content="Premium HTML5 Template by Indonez">
+    <meta name="keywords" content="blockit, uikit3, indonez, handlebars, scss, vanilla javascript">
+    <meta name="author" content="Indonez">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#e9e8f0">
+    <!-- Site Properties -->
+    <title>Homepage - LifeFlex</title>
+    <!-- Critical preload -->
+    <link rel="preload" href="{% static 'js/vendors/uikit.min.js' %}" as="script">
+    <link rel="preload" href="{% static 'css/vendors/uikit.min.css' %}" as="style">
+    <link rel="preload" href="{% static 'css/style.css' %}" as="style">
+    <!-- Icon preload -->
+    <link rel="preload" href="{% static 'fonts/fa-brands-400.woff2' %}" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="{% static 'fonts/fa-solid-900.woff2' %}" as="font" type="font/woff2" crossorigin="">
+    <!-- Font preload -->
+    <link rel="preload" href="{% static 'fonts/lato-v16-latin-700.woff2' %}" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="{% static 'fonts/lato-v16-latin-regular.woff2' %}" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="{% static 'fonts/montserrat-v14-latin-600.woff2' %}" as="font" type="font/woff2" crossorigin="">
+    <!-- Favicon and apple icon -->
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'apple-touch-icon.png' %}">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/vendors/uikit.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+<style>
+    .uk-button-primary, .in-profit-15 .in-icon-wrap, .in-profit-16 .in-create-account .uk-label {
+    background-color: #6a1ede !important;
+}
+.in-profit-16 .in-create-account {
+    border: 1px solid #6a1ede !important;
+}
+.uk-sticky.uk-active a.uk-logo {
+    background: url({% static 'img/new_logo.png' %});
+    width:60px;
+}
+</style>
+    <!-- preloader begin -->
+    <div class="in-loader">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <!-- preloader end -->
+    <header>
+        <!-- header content begin -->
+        <div class="uk-section uk-padding-remove-vertical">
+            <!-- module navigation begin -->
+            <nav class="uk-navbar-container uk-navbar-transparent" data-uk-sticky="show-on-up: true; top: 80; animation: uk-animation-fade;">
+                <div class="uk-container" data-uk-navbar="">
+                    <div class="uk-navbar-left uk-width-auto">
+                        <div class="uk-navbar-item">
+                            <!-- module logo begin -->
+                            <a class="uk-logo" href="index.html">
+{#                                <img class="in-offset-top-10" src="{% static 'img/in-lazy.svg' %}" data-src="{% static 'img/in-logo-1.svg' %}" alt="logo" width="130" height="36" data-uk-img="">#}
+                                <img class="in-offset-top-10" data-src="{% static 'img/new_logo.png' %}" alt="logo" width="70" data-uk-img="">
+
+                            </a>
+                            <!-- module logo begin -->
+                        </div>
+                    </div>
+                    <div class="uk-navbar-right uk-width-expand uk-flex uk-flex-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="markets.html">About</a></li>
+                            <li><a href="markets.html">Help Center</a></li>
+                        </ul>
+                        <div class="uk-navbar-item uk-visible@m in-optional-nav">
+                            <div>
+                                {% if request.user.is_authenticated %}
+                                    <a href="{% url 'dashboard' %}" class="uk-button uk-button-text">Dashboard</a>
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="uk-button uk-button-text">Login</a>
+                                <a href="{% url 'register' %}" class="uk-button uk-button-text">Sign up</a>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- module navigation end -->
+        </div>
+        <!-- header content end -->
+    </header>
+    <main>
+        {% block body %}
+        {% endblock %}
+    </main>
+    <footer>
+        <!-- footer content begin -->
+        <div class="uk-section uk-section-primary uk-padding-large uk-padding-remove-horizontal uk-margin-medium-top">
+            <div class="uk-container">
+                <div class="uk-grid uk-flex uk-flex-center uk-margin-large-top" data-uk-grid="">
+                    <div class="uk-width-5-6@m uk-margin-bottom">
+                        <div class="in-footer-warning in-margin-top-20@s">
+                            <h5 class="uk-text-small uk-text-uppercase"><span>Risk Disclosure</span></h5>
+                            <p class="uk-text-small">Futures, stocks and forex trading contains substantial risk and is not for every investor. An investor could potentially lose all or more than their initial investment. Risk capital is money that can be used without jeopardizing ones' financial security or life style. Only risk capital should be used for trading and only those with sufficient risk capital should consider trading. Past performance is not necessarily indicative of future results.</p>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-2@m in-copyright-text">
+                        <p>© LifeFlex Inc 2020. All rights reserved.</p>
+                    </div>
+                    <div class="uk-width-1-2@m uk-text-right@m in-footer-socials">
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-facebook-square"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer content end -->
+        <!-- module totop begin -->
+        <div class="uk-visible@m">
+            <a href="#" class="in-totop fas fa-chevron-up" data-uk-scroll=""></a>
+        </div>
+        <!-- module totop begin -->
+    </footer>
+    <!-- Javascript -->
+    <script src="{% static 'js/vendors/uikit.min.js' %}"></script>
+    <script src="{% static 'js/vendors/indonez.min.js' %}"></script>
+    <script src="{% static 'js/config-theme.js' %}"></script>
+</body>
+
+</html>

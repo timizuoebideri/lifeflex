@@ -1,0 +1,105 @@
+{% extends 'base-dashboard.html' %}
+{% load static %}
+{% block body %}
+    <div class="panel-content">
+        <div class="main-title-sec">
+            <div class="row">
+                <div class="col-md-3 column">
+                    <div class="heading-profile">
+                        <h2>Dashboard</h2>
+                        <span>Welcome back, Timizuo Ebideri</span> </div>
+                </div>
+            </div>
+        </div>
+        <!-- Heading Sec -->
+        <div class="main-content-area">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="balance-widget"> <span class="sparkpie" id="pie"><canvas width="40" height="40" style="display: inline-block; width: 40px; height: 40px; vertical-align: top;"></canvas></span>
+                                    <h3>Your Balance</h3>
+                                    <h2><i>TOTAL ACCOUNT BALANCE</i>${{ request.user.userprofile.account_balance }}</h2>
+                                    <div class="progress w-tooltip">
+                                        <div class="red-bg progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Balance Widget -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="balance-widget"> <span class="sparkpie" id="pie2"><canvas width="40" height="40" style="display: inline-block; width: 40px; height: 40px; vertical-align: top;"></canvas></span>
+                                    <h3>Your Earning</h3>
+                                    <h2><i>THIS TOTAL EARNINGS</i>${{ request.user.userprofile.earning_balance }}</h2>
+                                    <div class="progress w-tooltip">
+                                        <div class="blue-bg progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Balance Widget -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="balance-widget"> <span class="sparkpie" id="pie3"><canvas width="40" height="40" style="display: inline-block; width: 40px; height: 40px; vertical-align: top;"></canvas></span>
+                                    <h3>Your Withdrawals</h3>
+                                    <h2><i>TOTAL WITHDRAWALS MADE</i>{{ request.user.userprofile.total_withdrawal }}</h2>
+                                    <div class="progress w-tooltip">
+                                        <div class="green-bg progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Balance Widget -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="widget">
+                        <div class="quick-report-widget style2 white"> <i class="fa fa-usd"></i> <span>Next Payout</span>
+                            <h4>30 Days</h4>
+                            <div class="progress">
+                                <div class="progress-bar skyblue-bg" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 5%;"> 30 days remaining </div>
+                            </div>
+                            <h5>Days remaining the the next increment</h5>
+                        </div>
+                    </div>
+                    <!-- Widget -->
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="widget white no-padding">
+                        <div class="widget-tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item"><a class="active" data-toggle="tab" data-target="#tab1" style="color:#fff;">Resent Account Activity</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab1" class="tab-pane fade active show">
+                                    <ul class="user-comments"  style="">
+                                        {% for activity in activities %}
+                                            <li>
+                                            <div class="user-avatar">
+                                                <span style="background: #fd6a59; display: flex; justify-content: center; align-items: center; color: #fff;">
+                                                    <i class="fa fa-hashtag"></i>
+                                                </span>
+                                            </div>
+                                            <h3 style="margin-top: 10px;">{{ activity.message }}</h3>
+                                            <i>{{ activity.date }}</i>
+                                        </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

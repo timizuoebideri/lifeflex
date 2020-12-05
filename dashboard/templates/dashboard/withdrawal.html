@@ -1,0 +1,218 @@
+{% extends 'base-dashboard.html' %}
+
+{% load static %}
+
+{% block body %}
+    <style>
+        .profile-head {
+            background: linear-gradient(45deg, #161829, #00000094), url({% static 'images/resource/profile-bg.jpg' %});
+        }
+        label{font-size: .9rem;}
+        .form-control{    height: 50px;}
+        .bar-chart-details {
+            float: left;
+            margin-left: 10px;
+        }
+    </style>
+<div class="panel-content">
+    <div class="main-title-sec">
+        <div class="row">
+            <div class="col-md-3 column">
+                <div class="heading-profile">
+                    <h2>Withdrawal Page</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Heading Sec -->
+    <div class="main-content-area">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="widget">
+                    <div class="widget-title">
+                        <h3>Withdrawals</h3>
+                    </div>
+                    <div class="with-padding">
+                        <table class="table table-dark table-bordered">
+                            <tr>
+                                <th>#id</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                            {% for withdraw in withdraws %}
+                                <tr>
+                                    <td><a href="?withdraw_id={{ withdraw.id }}">#{{ withdraw.id }}</a></td>
+                                    <td>{{ withdraw.date_updated }}</td>
+                                    <td>${{ withdraw.amount_requested }}</td>
+                                    <td>
+                                        <span class="{% if withdraw.status == 'declined' %} text-danger {% elif withdraw.status == 'processing' %} text-warning {% else %} text-success {% endif %}">
+                                            {{ withdraw.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+
+                {% if withdraw_single %}
+                    <div class="widget">
+                        <div class="with-padding">
+                            <table class="table table-dark table-bordered">
+                                <tr>
+                                    <th>
+                                        #id
+                                    </th>
+                                    <td>
+                                        {{ withdraw_single.id }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Amount Requested
+                                    </th>
+                                    <td>
+                                        ${{ withdraw_single.amount_requested }}.00
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Payout Method
+                                    </th>
+                                    <td>
+                                        {{ withdraw_single.payout_method }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Earning Balance Before & After
+                                    </th>
+                                    <td>
+                                        ${{ withdraw_single.earning_before }} - ${{ withdraw_single.earning_after }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Date Requested
+                                    </th>
+                                    <td>
+                                        {{ withdraw_single.date_created }}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Withdrawal Status
+                                    </th>
+                                    <td>
+                                        <span class="{% if withdraw_single.status == 'declined' %} text-danger {% elif withdraw_single.status == 'processing' %} text-warning {% else %} text-success {% endif %}">
+                                            {{ withdraw_single.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        Comment:
+                                        <p>
+                                            {{ withdraw_single.comment }}
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="widget">
+                    <div class="col-md-12">
+                        <div class="widget">
+                            <div class="widget-title">
+                                <h3>Request a withdrawal</h3>
+                            </div>
+                            <div class="with-padding">
+                                <div class="row">
+                                    <div class="bar-chart-details">
+                                        <p>Account Balance</p>
+                                        <h5>${{ request.user.userprofile.account_balance }}</h5>
+                                    </div>
+                                    <div class="bar-chart-details">
+                                        <p>Earning Balance</p>
+                                        <h5>${{ request.user.userprofile.earning_balance }}</h5>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <p>You can only withdraw from your earning wallet</p>
+                                <form method="post" class="col-md-12">
+                                    <br>
+                                    {% csrf_token %}
+                                        <div class="form-group">
+                                            <label class="c-label">Amount</label>
+                                            <input type="number" id="amount_to_withdraw" class="form-control" name="amount" placeholder="500">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="c-label">Method of payment</label>
+                                            <select name="payout-method" id="" class="form-control">
+                                                <option value="naira-account">
+                                                    My Naira Bank
+                                                </option>
+                                                <option value="bitcoin-account">
+                                                    My Bitcoin Wallet
+                                                </option>
+                                            </select>
+                                        </div>
+
+
+                                        <input type="submit" value="Request Withdrawal" class="btn btn-primary btn-block">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="widget">
+                            <div class="widget-title">
+                                <h3>Close Account</h3>
+                            </div>
+                            <div class="with-padding">
+                                <div class="row">
+                                    <div class="bar-chart-details">
+                                        <p>Account Balance</p>
+                                        <h5>${{ request.user.userprofile.account_balance }}</h5>
+                                    </div>
+                                </div>
+
+                                <hr>
+        {#                        <p>Simple Panel with no Control buttons</p>#}
+                                <form method="post" class="col-md-12">
+                                    <br>
+                                    {% csrf_token %}
+
+                                    <input type="submit" value="Close account" class="btn btn-danger btn-block">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        document.getElementById('amount_to_withdraw').oninput = function () {
+            var element = document.getElementById('amount_to_withdraw').value
+            if(element > {{ request.user.userprofile.earning_balance }}){
+                alert('You dont have enough earning balance')
+                document.getElementById('amount_to_withdraw').value = {{ request.user.userprofile.earning_balance }}
+            }
+        }
+
+    </script>
+{% endblock %}

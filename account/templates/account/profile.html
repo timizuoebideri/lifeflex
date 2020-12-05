@@ -1,0 +1,120 @@
+{% extends 'base-dashboard.html' %}
+
+{% load static %}
+
+{% block body %}
+    <style>
+        .profile-head {
+            background: linear-gradient(45deg, #161829, #00000094), url({% static 'images/resource/profile-bg.jpg' %});
+        }
+        label{font-size: .9rem;}
+    </style>
+    {% if messages %}
+        {% for message in messages %}
+            <div role="alert" class="alert white" style=" position: fixed; z-index: 500; top: 55px; right: 0; background: rgba(255, 255, 255, .9); border: 0;">
+                <span><i class="{{ message.tags }}"></i></span>
+                {{ message }}
+            </div>
+            <script>
+                setTimeout(function(){
+                    document.querySelector('.alert').style.display = 'none';
+                }, 3000)
+            </script>
+
+        {% endfor %}
+    {% endif %}
+    {% if form.errors %}
+        <div style=" position: fixed; z-index: 500; top: 55px; right: 0;">
+
+        </div>
+        {% for error in errors %}
+            <div role="alert" class="alert white" style="background: rgba(255, 255, 255, .9); border: 0;">
+                <span><i class="ti-close red-bg"></i></span>
+                {{ error }}
+            </div>
+
+
+        {% endfor %}
+        <script>
+            setTimeout(function(){
+                document.querySelectorAll('.alert').style.display = 'none';
+            }, 3000)
+        </script>
+    {% endif %}
+
+    <!--Change password form errors-->
+    {{ password_form.errors }}
+
+<div class="panel-content">
+    <div class="main-title-sec">
+        <div class="row">
+            <div class="col-md-3 column">
+                <div class="heading-profile">
+                    <h2>Profile Page</h2>
+                    <span>Welcome back, John</span> </div>
+            </div>
+        </div>
+    </div>
+    <!-- Heading Sec -->
+    <ul class="breadcrumbs">
+        <li><a href="#" title="">Home</a></li>
+        <li>Profile Page</li>
+    </ul>
+    <div class="main-content-area">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="profile-sec">
+                    <div class="profile-head">
+                        <div class="profile-avatar">
+                            <span>
+                                {% if request.user.userprofile.image %}
+                                    <img src="{{ request.user.userprofile.image.url }}" style="width:100px" alt="">
+                                {% else %}
+                                    <img src="{% static 'images/resource/admin.jpg' %}" alt="">
+                                {% endif %}
+                            </span>
+                            <div class="profile-name">
+                                <h3>{{ request.user.userprofile.fullname }}</h3>
+                                <i>{{ request.user.userprofile.email }}</i>
+                                <i><b>Joined:</b> {{ request.user.date_joined }}</i>
+                            </div>
+                        </div>
+                        <ul class="profile-connect">
+                            <li><a href="#" title="">Bronze Account</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="widget with-padding">
+
+                                    <form enctype="multipart/form-data" method="post">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        <input type="hidden" name="type" value="edit-profile">
+                                        <div class="form-group">
+                                            <button class="btn green-bg btn-default" type="submit">Update Account</button>
+                                        </div>
+                                    </form>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="widget with-padding">
+                                <h4>Change Password</h4>
+                                    <form enctype="multipart/form-data" method="post">
+                                        {% csrf_token %}
+                                        {{ password_form.as_p }}
+                                        <input type="hidden" name="type" value="change-password">
+                                        <br>
+                                        <button class="btn green-bg btn-default" type="submit">Update Password</button>
+
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

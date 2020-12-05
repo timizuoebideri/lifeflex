@@ -1,0 +1,64 @@
+{% extends 'base-dashboard.html' %}
+{% load static %}
+{% block body %}
+    <div class="panel-content">
+        <div class="main-title-sec">
+            <div class="row">
+                <div class="col-md-8 column">
+                    <div class="heading-profile">
+                        <h2>All Invoices</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Heading Sec -->
+        <div class="main-content-area">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget">
+                        <table class="table table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Amount</th>
+                                <th>Purpose</th>
+                                <th>Method of Payment</th>
+                                <th>Date Updated</th>
+                                <th>Status</th>
+                            </tr>
+                            {% for invoice in invoices %}
+                            <tr>
+                                <td><a href="{% url 'admin-single-invoice' pk=invoice.pk %}">#{{ invoice.pk }}</a></td>
+                                <td>{{ invoice.user }}</td>
+                                <td>{{ invoice.amount }}</td>
+                                <td>{{ invoice.purpose }}</td>
+                                <td>{{ invoice.method_of_payment }}</td>
+                                <td>{{ invoice.date_updated }}</td>
+                                <td><b class="{% if invoice.status == 'unpaid' or invoice.status == 'declined'  %}text-danger{% elif invoice.status == 'processing' %} text-warning  {% else %} text-success {% endif %}">{{ invoice.status }}</b></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% if is_paginated %}
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="disabled"> <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"> <span aria-hidden="true">«</span> </a> </li>
+                        {% endif %}
+                        {% for item in paginator.page_range %}
+                            {% if page_obj.number == item %}
+                                <li class="active"><a href="?page={{ item }}">{{ item }}</a></li>
+                            {% else %}
+                                <li class=""><a href="?page={{ item }}">{{ item }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li> <a href="?page={{ page_obj.next_page_number }}" aria-label="Next"> <span aria-hidden="true">»</span> </a> </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base-dashboard.html' %}
+{% load static %}
+{% block body %}
+    <div class="panel-content">
+        <div class="main-title-sec">
+            <div class="row">
+                <div class="col-md-6 column">
+                    <div class="heading-profile">
+                        <h2>#{{ withdrawal.pk }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Heading Sec -->
+        <div class="main-content-area">
+            <div>
+                <table class="table table-dark table-bordered">
+                    <tr>
+                        <th colspan="2" class="btn-danger">WITHDRAWAL DETAILS</th>
+                    </tr>
+                    <tr>
+                        <td><b>Customer:</b> {{ withdrawal.user.userprofile.fullname }} </td>
+                        <td><b>Date Created:</b> {{ withdrawal.date_created }} </td>
+                    </tr>
+                    <tr>
+                        <td><b>Status:</b> 
+                            <span class="{% if withdrawal.status == 'declined' %} text-danger {% elif withdrawal.status == 'processing' %} text-warning {% else %} text-success {% endif %}">
+                                {{ withdrawal.status }}
+                            </span>
+                        </td>
+                        <td><b>Date Updated:</b> ${{ withdrawal.date_updated }} </td>
+                    </tr>
+                    <tr>
+                        <td><b>Type:</b> {{ withdrawal.type }} </td>
+                        <td><b>Amount:</b> ${{ withdrawal.amount_requested }} </td>
+                    </tr>
+                    <tr>
+                        <td><b>Method of Payout:</b> {{ withdrawal.payout_method }} </td>
+                        <td><b>Earnings Before and After:</b> ${{ withdrawal.earning_before }} - ${{ withdrawal.earning_after }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Bitcoin Address:</b> {{ withdrawal.user.userprofile.bitcoin_wallet }} </td>
+                        <td><b>Naira Bank Details:</b> {{ withdrawal.user.userprofile.bank_name }}, {{ withdrawal.user.userprofile.bank_account_number }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <b>Comment:</b>
+                            {{ withdrawal.comment }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <form method="POST">
+                                {% csrf_token %}
+
+                                <b>Comment:</b>
+                                <textarea class="form-control" name="comment" id="" cols="30" rows="10"></textarea>
+                                <hr>
+                                <div class="col-md-4">
+                                    <select name="status" class="form-control">
+                                        <option value="approved">Approve</option>
+                                        <option value="declined">Decline</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="col-md-4">
+                                    <input type="submit" value="Update" class="btn btn-primary btn-block">
+                                </div>
+                            </form>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

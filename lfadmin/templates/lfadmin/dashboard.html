@@ -1,0 +1,41 @@
+{% extends 'base-dashboard.html' %}
+{% load static %}
+{% block body %}
+    <div class="panel-content">
+        <div class="main-title-sec">
+            <div class="row">
+                <div class="col-md-3 column">
+                    <div class="heading-profile">
+                        <h2>Dashboard</h2>
+                        <span>Welcome back, {{ request.user.userprofile.fullname }}</span> </div>
+                </div>
+            </div>
+        </div>
+        <!-- Heading Sec -->
+        <div class="main-content-area">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="widget">
+                        <div class="quick-box red-bg"> <span>Total Customers</span> <em>{{ users }}</em> </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="widget">
+                        <div class="quick-box skyblue-bg -bg"> <span>Total Invoices</span> <em>{{ invoice }}</em> </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="widget">
+                        <div class="quick-box blue-bg"> <span>Total Withdrawal Requests</span> <em>1207</em> </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="widget">
+                        <div class="quick-box green-bg"> <span>Total Withdrawals</span> <em>2031</em> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

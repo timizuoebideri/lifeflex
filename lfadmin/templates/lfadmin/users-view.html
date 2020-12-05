@@ -1,0 +1,115 @@
+{% extends 'base-dashboard.html' %}
+{% load static %}
+{% block body %}
+    <div class="panel-content">
+        <div class="main-title-sec">
+            <div class="row">
+                <div class="col-md-6 column">
+                    <div class="heading-profile">
+                        <h2>{{ user.userprofile }} Account</h2>
+                        {% if user.userprofile.image %}
+                            <img src="{{ user.userprofile.image.url }}" width="100px" alt="">
+                        {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+        <!-- Heading Sec -->
+        <div class="main-content-area">
+            <div>
+                <table class="table table-dark table-bordered">
+                    <tr>
+                        <th colspan="2" class="btn-success">ACCOUNT DETAILS</th>
+                    </tr>
+                    <tr>
+                        <td><b>Full Name:</b> {{ user.userprofile }}</td>
+                        <td><b>Email:</b> {{ user.userprofile.email }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Phone:</b> {{ user.userprofile.phone }}</td>
+                        <td><b>Date Joined:</b> {{ user.date_joined }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Account Balance:</b> ${{ user.userprofile.account_balance }}</td>
+                        <td><b>Earning Balance :</b> ${{ user.userprofile.earning_balance }}</td>
+                    </tr>
+
+                    <tr class="table-borderless"><td></td></tr>
+                    <tr>
+                        <th colspan="2" class="btn-success">WITHDRAWAL ACCOUNT DETAILS</th>
+                    </tr>
+
+                    <tr>
+                        <td><b>Account Name:</b> {{ user.userprofile.fullname }}</td>
+                        <td><b>Bank Name:</b> {{ user.userprofile.bank_name }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Account Number:</b> {{ user.userprofile.bank_account_number }}</td>
+                        <td><b>Bitcoin Wallet:</b> {{ user.userprofile.bitcoin_wallet }}</td>
+                    </tr>
+                </table>
+
+                <table class="table table-dark table-bordered">
+                     <tr>
+                        <th colspan="7" class="btn-success">INVOICE</th>
+                    </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Purpose</th>
+                        <th>Method of Payment</th>
+                        <th>Date Created</th>
+                        <th>Date Updated</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for invoice in invoices %}
+                    <tr>
+                        <td><a href="{% url 'admin-single-invoice' pk=invoice.pk %}">#{{ invoice.pk }}</a></td>
+                        <td>{{ invoice.amount }}</td>
+                        <td>{{ invoice.purpose }}</td>
+                        <td>{{ invoice.method_of_payment }}</td>
+                        <td>{{ invoice.date_created }}</td>
+                        <td>{{ invoice.date_updated }}</td>
+                        <td><b class=" {% if invoice.status == 'unpaid' %}text-danger{% else %} text-success {% endif %}">{{ invoice.status }}</b></td>
+                    </tr>
+
+                    {% endfor %}
+                </table>
+
+
+                <table class="table table-dark table-bordered">
+                     <tr>
+                        <th colspan="9" class="btn-success">WITHDRAWALS</th>
+                    </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Account Balance</th>
+                        <th>Earning Balance Before</th>
+                        <th>Earning Balance After</th>
+                        <th>Amount Requested</th>
+                        <th>Date Requested</th>
+                        <th>Date Processed</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for withdrawal in withdrawals %}
+                    <tr>
+                        <td><a href="{% url 'admin-single-withdrawal' pk=withdrawal.pk %}">#{{ withdrawal.pk }}</a></td>
+                        <td>{{ withdrawal.type }}</td>
+                        <td>${{ withdrawal.user.userprofile.account_balance }}</td>
+                        <td>${{ withdrawal.earning_before }}</td>
+                        <td>${{ withdrawal.earning_after }}</td>
+                        <td>${{ withdrawal.amount_requested }}</td>
+                        <td>{{ withdrawal.date_created }}</td>
+                        <td>{{ withdrawal.date_updated }}</td>
+                        <td><b class=" {% if withdrawal.status == 'declined' %}text-danger{% elif withdrawal.status == 'processing' %}text-warning{% else %} text-success {% endif %}">{{ withdrawal.status }}</b></td>
+                    </tr>
+
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

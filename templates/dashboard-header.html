@@ -1,0 +1,86 @@
+{% load static %}
+<style>
+    .quick-report-widget.style2.white > h5 {
+        color: #ff8866;
+        color: #1abc9c;
+        color: #36c6d3;
+    }
+</style>
+<header class="simple-normal">
+    <div class="top-bar">
+        <div class="logo"> <a href="#" title=""><img src="{% static 'images/main-logo2.png' %}" alt=""> LifeFlex</a> </div>
+        <div class="menu-options"><span class="menu-action"><i></i></span></div>
+        <!-- Search Dashboard -->
+        <div class="top-bar-quick-sec">
+            <div class="name-area"> <a href="#" title="">
+                <strong>{{ request.user }}</strong>
+                {% if request.user.userprofile.image %}
+                    <img src="{{ request.user.userprofile.image.url }}" alt="">
+                {% endif %}
+            </a>
+                <ul>
+                    <li class="profile-status"><span>Profile Completion 70%</span></li>
+                    <li><a href="#" title=""><i class="fa fa-dollar"></i> My Balance</a></li>
+                    <li><a href="#" title=""><i class="fa fa-gear"></i> Setting</a></li>
+                    <li><a href="{% url 'logout' %}" title=""><i class="ti-power-off"></i> logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Top Bar -->
+    <div class="side-menu-sec" id="header-scroll">
+        <div class="side-menus"> <span></span>
+            <nav>
+                {% if request.user_group == 'administrator' %}
+
+                    <ul class="parent-menu">
+                    <li class="">
+                        <a title="" href="{% url 'admin-dashboard' %}"><i class="ti-desktop"></i><span>Dashboard </span></a>
+                    </li>
+                    <li class="">
+                        <a title="" href="{% url 'admin-all-users' %}"><i class="ti-desktop"></i><span>All Users </span></a>
+                    </li>
+                    <li class="">
+                        <a title="" href="{% url 'admin-all-invoice' %}"><i class="ti-desktop"></i><span>Invoices </span></a>
+                    </li>
+                    <li class="">
+                        <a title="" href="{% url 'admin-all-withdrawals' %}"><i class="ti-desktop"></i><span>Withdrawals </span></a>
+                    </li>
+                    <li class="">
+                        <a title="" href="{% url 'profile' %}"><i class="ti-user"></i><span>Profile</span></a>
+                    </li>
+                </ul>
+
+                {% else %}
+
+                    <ul class="parent-menu">
+                    <li class="">
+                        <a title="" href="{% url 'dashboard' %}"><i class="ti-desktop"></i><span>Dashboard </span></a>
+                    </li>
+                    <li class="">
+                        <a title="" href="{% url 'profile' %}"><i class="ti-user"></i><span>Profile</span></a>
+                    </li>
+                    <li class="">
+                        <a title="" href="{% url 'account-activity' %}"><i class="ti-credit-card"></i><span>Account Activity</span></a>
+                    </li>
+                    <li class="">
+                        <a title="" href="{% url 'invoice' %}"><i class="ti-credit-card"></i><span>Invoice</span></a>
+                    </li>
+                    <li class="">
+                        <a title="" href="{% url 'withdrawal' %}"><i class="ti-credit-card"></i><span>Withdrawal</span></a>
+                    </li>
+                    <li class="">
+                        <a title="" href="#"><i class="ti-hand-open"></i><span>Refer a friend</span></a>
+                    </li>
+                </ul>
+
+                {% endif %}
+
+
+            </nav>
+            <span class="footer-line">2020 &copy; LifeFlex All Rights Reserved</span> </div>
+    </div>
+</header>
+
+
+
